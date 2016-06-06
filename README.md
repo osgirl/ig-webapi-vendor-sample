@@ -1,4 +1,5 @@
 ## IG Web API B2B Vendor Sample Application
+[![Build Status](https://travis-ci.org/IG-Group/ig-webapi-vendor-sample.svg?branch=master)]
 
 ### Overview
 This sample application shows a basic OAuth 2.0 authorization flow with the IG authorization server in order to enable
