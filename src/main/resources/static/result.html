@@ -1,0 +1,32 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>IG Web API B2B Vendor Sample Application</title>
+
+    <link href="assets/css/main.css" rel="stylesheet">
+
+    <script src="assets/js/thirdparty/jquery.js"></script>
+    <script src="assets/js/thirdparty/jquery-ui.js"></script>
+
+    <script src="assets/js/oauth/common.js" type="text/javascript"></script>
+    <script src="assets/js/result.js" type="text/javascript"></script>
+</head>
+
+<body>
+    <div id="header" class="mainTitle" style="background-image: url(assets/img/header_background.png)" >
+        IG Web API B2B Vendor Sample Application
+    </div>
+    <h3>Client ID</h3>
+    <p><code id="clientId"></code></p>
+    <h3>Access Token</h3>
+    <p><code id="accesstoken"></code>  (Expires in: <code id="expiresIn"></code> seconds)</p>
+    <div>
+        <h3>Client Account Details</h3>
+        <form>
+            Account ID: <input type="text" class="form-control" id="accountId" placeholder="Account ID"><br/>
+            <button id="account_details_button" onclick="loadClientAccountDetails(); return false;" class="button-green">Load</button>
+        </form>
+        <p><code id="clientAccountDetails"></code></p>
+    </div>
+</body>
+
+</html>

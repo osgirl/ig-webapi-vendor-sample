@@ -1,0 +1,23 @@
+
+.mainTitle {
+    background: scroll no-repeat 0 0 #9D0B0E;
+    min-height: 118px;
+    max-height: 118px;
+    margin:0 auto;
+    color: White;
+    text-align: center;
+    font-family: TimesNewRoman, 'Times New Roman', Times, Baskerville, Georgia, serif;
+    font-size: 32px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 500;
+    line-height: 60px;
+}
+.button-green {
+    color: #FFF;
+    padding:2px 5px 2px 5px;
+    background-color:#78b23f
+}
+.button-green:hover {
+    background-color:#608e32
+}
