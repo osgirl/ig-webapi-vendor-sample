@@ -61,4 +61,4 @@ which it is holding a refresh token. It uses these refresh tokens in each iterat
         POST /oauth2/access_token     (grant_type = refresh_token)
         
 The response holds a new access token with the expiry in seconds (currently **59 seconds**) and a new refresh token. Refresh tokens
-currently expire after **10 minutes**. The background task then uses the access token to retrieve client account details via the IG Web API.
+currently expire after **72 hours**. The background task then uses the access token to retrieve client account details via the IG Web API.
