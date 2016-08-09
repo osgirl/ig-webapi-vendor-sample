@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/IG-Group/ig-webapi-vendor-sample.svg?branch=master)](https://travis-ci.org/IG-Group/ig-webapi-vendor-sample)
 
 ### Overview
-This sample application shows a basic OAuth 2.0 authorization flow with the IG authorization server in order to enable
+This sample application shows a basic OAuth 2.0 "code grant" authorization flow with the IG authorization server in order to enable
 IG B2B vendor clients to access the IG Web API on behalf of their clients.
 
 ### Getting started
@@ -52,8 +52,7 @@ The authorization handler will retrieve the authorization code from the redirect
     /api-vendor-sample/result.html
 
 The result page presented to the user now has an access token which it will use to load client account details via the
-IG Web API. It prompts the user for one of his account ids to as loading client account details currently requires an 
-account id. This will fail after the access token expires.
+IG Web API.
 
 The main application thread (see Application class) does some periodic background processing (every **80 second**) for all users for 
 which it is holding a refresh token. It uses these refresh tokens in each iteration to obtain new access token and refresh token by calling:
