@@ -87,12 +87,9 @@ public class Application {
         LOG.debug("Storing new refreshToken={} for clientId={}", refreshToken, clientId);
         oAuthSessions.setRefreshToken(clientId, refreshToken);
 
-        String accountId = oAuthSessions.getAccountId(clientId);
-        if(accountId != null) {
-            LOG.debug("Processing user with clientId={}", clientId);
-            String apiKey = env.getProperty("ig.b2b.api.key");
-            ClientAccountsResponse accounts = apiClient.getClientAccountDetails(apiKey, accessToken, accountId);
-            LOG.info("Accounts for clientId={}:  {}", clientId, accounts.getAccounts().stream().map(ClientAccount::getAccountId).collect(Collectors.joining(",")));
-        }
+        LOG.debug("Processing user with clientId={}", clientId);
+        String apiKey = env.getProperty("ig.b2b.api.key");
+        ClientAccountsResponse accounts = apiClient.getClientAccountDetails(apiKey, accessToken);
+        LOG.info("Accounts for clientId={}:  {}", clientId, accounts.getAccounts().stream().map(ClientAccount::getAccountId).collect(Collectors.joining(",")));
     }
 }
