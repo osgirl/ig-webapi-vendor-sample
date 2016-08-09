@@ -29,14 +29,13 @@ public class APIClient {
         this.igApiServerUrl = igApiServerUrl;
     }
 
-    public ClientAccountsResponse getClientAccountDetails(String apiKey, String accessToken, String accountId) throws Exception {
-        LOG.debug("Requesting client account details for access apiKey={} accessToken={} accountId={}", apiKey, accessToken, accountId);
+    public ClientAccountsResponse getClientAccountDetails(String apiKey, String accessToken) throws Exception {
+        LOG.debug("Requesting client account details for access apiKey={} accessToken={}", apiKey, accessToken);
         String url = igApiServerUrl + "/accounts";
         Map<String, String> headers = ImmutableMap.<String, String>builder()
                 .put("VERSION", "1")
                 .put("X-IG-API-KEY", apiKey)
                 .put("X-IG-OAUTH-TOKEN", accessToken)
-                .put("IG-ACCOUNT-ID", accountId)
                 .build();
         ResponseEntity<ClientAccountsResponse> response = restClient.execute(HttpMethod.GET, url, null, ClientAccountsResponse.class, headers, null);
         if(response.getStatusCode() != HttpStatus.OK) {

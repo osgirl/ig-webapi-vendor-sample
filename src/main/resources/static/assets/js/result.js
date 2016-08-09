@@ -7,13 +7,14 @@ window.onload = function() {
     $("#clientId").text(clientId);
     $("#accesstoken").text(accessToken);
     $("#expiresIn").text(expiresIn);
+    $("#clientAccountDetails").text("Loading...");
+
+    loadClientAccountDetails(accessToken);
 };
 
-function loadClientAccountDetails() {
-    var accessToken = $("#accesstoken").text();
-    var accountId = $("#accountId").val();
+function loadClientAccountDetails(accessToken) {
     $.ajax({
-        url: vendorBaseUrl + "/api-vendor-sample/accounts?accountId=" + accountId,
+        url: vendorBaseUrl + "/api-vendor-sample/accounts",
         type: "GET",
         beforeSend: function (xhr) {
             xhr.setRequestHeader("X-IG-OAUTH-TOKEN", accessToken);
