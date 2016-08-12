@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/IG-Group/ig-webapi-vendor-sample.svg?branch=master)](https://travis-ci.org/IG-Group/ig-webapi-vendor-sample)
 
 ### Overview
-This sample application shows a basic OAuth 2.0 "code grant" authorization flow with the IG authorization server in order to enable
+This sample application shows how to establish an **authorization code grant** or **implicit grant** OAuth 2.0 flow with the IG authorization server in order to enable
 IG B2B vendor clients to access the IG Web API on behalf of their clients.
 
 ### Getting started
@@ -27,10 +27,10 @@ or alternatively deploy it on an existing web server. Open a web browser and ent
     
 where **<hostname>** is the name of your host (**NOTE**: do not use "localhost").
 
-### Description
+### Authorization code grant
 The welcome page has a link
 
-    GET /oauth2/authorize
+    GET /oauth2/authorize           (response_type = code)
 to the IG authorization server which will prompt the user for their IG credentials and ask them to consent IG to provide
 the vendor with an authorization code. The IG authorization server will then return an authorization code on a 403 redirect 
 response (specified by the vendor on the "redirect_url" query parameter). The redirect url needs to match the url configured
@@ -61,3 +61,14 @@ which it is holding a refresh token. It uses these refresh tokens in each iterat
         
 The response holds a new access token with the expiry in seconds (currently **59 seconds**) and a new refresh token. Refresh tokens
 currently expire after **72 hours**. The background task then uses the access token to retrieve client account details via the IG Web API.
+
+### Implicit grant
+As in the authorization code grant, we first have to call
+
+    GET /oauth2/authorize            (response_type = token)
+which will prompt the user for their IG credentials. Note, however, that response_type is **token** so the redirect callback will
+contain the access token directly on the URL fragment. The redirect in this case is handled by the **client browser** (rather than the server) in
+
+    implicit-grant-handler.html
+
+which retrieves the access code from the URL fragment. It subsequently calls /show-result but this is just to render the result page.
