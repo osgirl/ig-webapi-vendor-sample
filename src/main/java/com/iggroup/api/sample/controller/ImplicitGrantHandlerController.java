@@ -1,8 +1,6 @@
 package com.iggroup.api.sample.controller;
 
-import com.iggroup.api.sample.controller.dto.AccessTokenResponse;
 import com.iggroup.api.sample.controller.dto.UserInformationResponse;
-import com.iggroup.api.sample.service.OAuthSessions;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,62 +13,42 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Authorization grant controller to handle OAuth redirects with an authorization code.
+ * Implicit grant controller to render the result receive by implicit-grant-handler.html as a result of an OAuth redirect with an access token.
  */
 @RestController
-public class AuthorizationHandlerController {
+public class ImplicitGrantHandlerController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AuthorizationHandlerController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ImplicitGrantHandlerController.class);
 
-    private final OAuthSessions oAuthSessions;
-    private final AccessTokenController accessTokenController;
     private final UserInformationController userInformationController;
     private final String baseUrl;
 
     @Autowired
-    public AuthorizationHandlerController(OAuthSessions oAuthSessions,
-                                          AccessTokenController accessTokenController,
-                                          UserInformationController userInformationController,
+    public ImplicitGrantHandlerController(UserInformationController userInformationController,
                                           String baseUrl) {
-        this.oAuthSessions = oAuthSessions;
-        this.accessTokenController = accessTokenController;
         this.userInformationController = userInformationController;
         this.baseUrl = baseUrl;
     }
 
-    @RequestMapping("/authorization-handler")
+    @RequestMapping("/show-result")
     public void handle(@RequestParam MultiValueMap<String, String> queryParameters, HttpServletResponse httpResponse) throws Exception {
-        if(queryParameters.containsKey("error")) {
-            LOG.error(queryParameters.getFirst("error_description"));
-            return;
-        }
-        String authorizationCode = queryParameters.getFirst("code");
+        String accessToken = queryParameters.getFirst("access_token");
+        String expiresIn = queryParameters.getFirst("expires_in");
         String state = queryParameters.getFirst("state");
         String stateSession = "af0ifjsldkj";
         if(StringUtils.isBlank(state) || !state.equals(stateSession)) {
             LOG.error("The request state={} does not match the session state={}", state, stateSession);
+            httpResponse.sendError(403, "tamper protection");
             return;
         }
-        LOG.info("Received authorization code={}", authorizationCode);
-
-        // Request an access token
-        AccessTokenResponse accessTokenResponse = accessTokenController.getAccessToken(authorizationCode);
-        LOG.info("Access token response for authorization code={}: {}", authorizationCode, accessTokenResponse);
+        LOG.info("Received access token={}", accessToken);
 
         // Retrieve user information
-        String accessToken = accessTokenResponse.getAccess_token();
         UserInformationResponse userInformationResponse  = userInformationController.getUserInformation(accessToken);
         LOG.info("User information for access token={}: {}", accessToken, userInformationResponse);
-
-        // Store refresh token
         String clientId = userInformationResponse.getSub();
-        String refreshToken = accessTokenResponse.getRefresh_token();
-        String expiresIn = accessTokenResponse.getExpires_in();
-        LOG.info("Storing refreshToken={} for clientId={}", refreshToken, clientId);
-        oAuthSessions.setRefreshToken(clientId, refreshToken);
 
         // Redirect to result page
         httpResponse.sendRedirect(baseUrl + String.format("/result.html?clientId=%s&accessToken=%s&expiresIn=%s", clientId, accessToken, expiresIn));
     }
-
 }
