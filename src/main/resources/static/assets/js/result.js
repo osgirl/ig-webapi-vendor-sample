@@ -1,4 +1,5 @@
 window.onload = function() {
+    $("#refresh_implicit_grant_token").attr("href", getImplicitGrantUrl());
 
     var query = parseQueryString();
     var clientId = query['clientId'];
