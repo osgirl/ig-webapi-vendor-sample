@@ -11,7 +11,7 @@ Configure the application:
     application.properties
     common.js
 
-You will need to set your B2B API key, your OAuth client id and secret and your server hostname and port if required.
+You will need to set your B2B API key, your OAuth client id, OAuth client secret, OAuth scope, your server's hostname and port if required.
 
 Use maven 3 or later to build the project:
 

@@ -38,7 +38,7 @@ function getAuthorizationCodeGrantUrl() {
         "response_type": "code",
         "client_id": client_id,
         "realm": client_realm,
-        "scope": "profile",
+        "scope": "full_readonly",
         "redirect_uri": vendorBaseUrl + "/api-vendor-sample/authorization-handler",
         "state": state
     };
@@ -50,7 +50,7 @@ function getImplicitGrantUrl() {
         "response_type": "token",
         "client_id": client_id,
         "realm": client_realm,
-        "scope": "profile",
+        "scope": "full_readonly",
         "redirect_uri": vendorBaseUrl + "/api-vendor-sample/implicit-grant-handler.html",
         "state": state
     };
